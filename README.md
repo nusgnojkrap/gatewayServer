@@ -97,3 +97,25 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+# Todo-List
+
+1. DB 설치 및 구조 생각 (mysql)
+  1) 전문명 테이블 생성
+  2) 전문통신에 필요한 요청 응답값 구조 테이블 생성
+
+2. 서버와 DB 연동
+  1) 전문명 조회하고 확인된 전문명만 gateway 가능
+  2) 확인이 된 전문명이지만, 요청값이 table에 저장된 값과 구조가 다르면 탈락
+  3) 응답값이 table에 저장된 값과 구조가 다르면 탈락
+
+3. 안정적인 이중화 서버 구조 생각
+  1) DB 이중화?
+  2) 서버 이중화?
+  3) 무중단 서비스 (업데이트가 필요할 때에도 중단되면 안됨)
+  4) 많은 요청 감당 가능한지?
+
+4. 웹 개발
+  1) 전문 등록
+  2) 로그 확인 (전문에 대한 로그 확인 가능)
+  3) 등 등
