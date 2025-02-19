@@ -101,6 +101,10 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 # Todo-List
 
 1. DB 설치 및 구조 생각 (mysql)
+mysql DB version : 8.0.41.0
+root / vkvkdltm
+database : gateway
+
   1) 전문명 테이블 생성
   2) 전문통신에 필요한 요청 응답값 구조 테이블 생성
 
@@ -119,3 +123,75 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
   1) 전문 등록
   2) 로그 확인 (전문에 대한 로그 확인 가능)
   3) 등 등
+
+
+## Gateway Table 구조
+#### 1. 테이블 개요
+
+| 테이블명 | 설명 |
+|-------------|---------|
+| `messages` | 전문(메시지) 정의 테이블 |
+| `message_request_params` | 각 전문의 요청 파라미터 목록 |
+| `message_response_params` | 각 전문의 응답 파라미터 목록 |
+| `message_logs` | 요청 및 응답 로그 테이블 |
+
+---
+
+#### 2. 테이블 상세 구조
+
+##### 1️⃣ `messages` (전문 정의 테이블)
+각 전문(메시지)에 대한 기본 정보 저장
+
+| 컬럼명 | 타입 | 설명 |
+|--------|------|------|
+| `id` | BIGINT (PK) | 전문 ID (자동 증가) |
+| `message_name` | VARCHAR(255) | 전문명 (예: `PAYMENT_REQUEST`) |
+| `endpoint` | VARCHAR(512) | API 요청 URL |
+| `method` | ENUM('GET', 'POST', 'PUT', 'DELETE') | HTTP 메서드 |
+| `description` | TEXT | 설명 |
+| `created_at` | TIMESTAMP | 생성 시간 (기본값: `CURRENT_TIMESTAMP`) |
+
+---
+
+##### 2️⃣ `message_request_params` (요청 파라미터 테이블)
+각 전문이 요구하는 요청 파라미터 목록 저장
+
+| 컬럼명 | 타입 | 설명 |
+|--------|------|------|
+| `id` | BIGINT (PK) | 요청 파라미터 ID |
+| `message_id` | BIGINT (FK) | 연결된 전문 ID (`messages.id`) |
+| `param_name` | VARCHAR(255) | 요청 파라미터 이름 (예: `user_id`) |
+| `param_type` | ENUM('STRING', 'NUMBER', 'BOOLEAN', 'JSON') | 요청 값 타입 |
+| `required` | BOOLEAN | 필수 여부 (`TRUE` 또는 `FALSE`) |
+| `example_value` | TEXT | 예시 값 (테스트용) |
+| **Foreign Key** | `message_id → messages(id)` | 해당 전문 삭제 시 함께 삭제 (`ON DELETE CASCADE`) |
+
+---
+
+##### 3️⃣ `message_response_params` (응답 파라미터 테이블)
+정상적인 응답을 판단하기 위한 기준 값 저장
+
+| 컬럼명 | 타입 | 설명 |
+|--------|------|------|
+| `id` | BIGINT (PK) | 응답 파라미터 ID |
+| `message_id` | BIGINT (FK) | 연결된 전문 ID (`messages.id`) |
+| `param_name` | VARCHAR(255) | 응답 파라미터 이름 (예: `status`) |
+| `param_type` | ENUM('STRING', 'NUMBER', 'BOOLEAN', 'JSON') | 응답 값 타입 |
+| `expected_value` | TEXT | 기대되는 값 (NULL이면 비교 제외) |
+| **Foreign Key** | `message_id → messages(id)` | 해당 전문 삭제 시 함께 삭제 (`ON DELETE CASCADE`) |
+
+---
+
+##### 4️⃣ `message_logs` (요청 로그 테이블)
+API 요청 및 응답 결과를 저장하여 추적 가능
+
+| 컬럼명 | 타입 | 설명 |
+|--------|------|------|
+| `id` | BIGINT (PK) | 로그 ID |
+| `message_id` | BIGINT (FK) | 연결된 전문 ID (`messages.id`) |
+| `request_payload` | JSON | 실제 요청 데이터 |
+| `response_payload` | JSON | 실제 응답 데이터 |
+| `status` | ENUM('SUCCESS', 'FAILED') | 요청 성공 여부 |
+| `error_message` | TEXT | 오류 메시지 (실패 시 기록) |
+| `created_at` | TIMESTAMP | 요청 발생 시간 |
+| **Foreign Key** | `message_id → messages(id)` | 해당 전문 삭제 시 함께 삭제 (`ON DELETE CASCADE`) |
