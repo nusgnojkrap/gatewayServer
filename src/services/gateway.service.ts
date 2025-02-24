@@ -47,28 +47,27 @@ export class GatewayService {
         if (! isValidStructure(schema.parameter_schema, data.body)){
           // 실패
           // 실패코드 세팅
-
-          console.log("구조 다름 실패")
+          responseData.header.responseCode = "400";
+          responseData.header.responseMessage = "정의된 요청 데이터가 아닙니다."
           return responseData;
         }
       }
 
-      responseData.header.responseCode = "200";
-      responseData.header.responseMessage = "success"
       switch (data.header.protocol) {
         case 'HTTP':
           responseData = await jonghttp(data);
-          
+          responseData.header.responseCode = "200";
+          responseData.header.responseMessage = "success"
           break;
   
         case 'HTTPS':
           responseData = await jonghttp(data);
+          responseData.header.responseCode = "200";
+          responseData.header.responseMessage = "success"
           break;
       
         default:
           // error
-          responseData.header.responseCode = "400";
-          responseData.header.responseMessage = "개발되지 않은 프로토콜"
           break;
       }
 
