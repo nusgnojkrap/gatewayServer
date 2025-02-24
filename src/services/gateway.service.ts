@@ -47,6 +47,8 @@ export class GatewayService {
         if (! isValidStructure(schema.parameter_schema, data.body)){
           // 실패
           // 실패코드 세팅
+
+          console.log("구조 다름 실패")
           return responseData;
         }
       }
@@ -56,6 +58,7 @@ export class GatewayService {
       switch (data.header.protocol) {
         case 'HTTP':
           responseData = await jonghttp(data);
+          
           break;
   
         case 'HTTPS':
@@ -64,7 +67,6 @@ export class GatewayService {
       
         default:
           // error
-          console.log(data.header.protocol + " : 개발되지 않은 프로토콜");
           responseData.header.responseCode = "400";
           responseData.header.responseMessage = "개발되지 않은 프로토콜"
           break;
