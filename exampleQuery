@@ -1,7 +1,7 @@
-// mysql DB
+-- mysql DB
 
 
-// 전문 리스트 테이블 : 전문코드, ip, port, path, portocol, method, timestamp
+-- 전문 리스트 테이블 : 전문코드, ip, port, path, portocol, method, timestamp
 CREATE TABLE messages (
 message_id INT AUTO_INCREMENT PRIMARY KEY,
 message_name VARCHAR(255) NOT NULL,
@@ -14,21 +14,21 @@ timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 UNIQUE KEY unique_message (message_name, ip, port, path, protocol, method)
 );
 
-// 전문 리스트 테이블 값
+-- 전문 리스트 테이블 값
 INSERT INTO messages (message_name, ip, port, path, protocol, method) VALUES ('00A001', '10.10.10.181', 3000, '/nowtime', 'HTTP', 'GET');
 
 
-// 전문 요청 파라미터 테이블 : 전문코드, 파라미터 형식(text, json), 파라미터 구조
+-- 전문 요청 파라미터 테이블 : 전문코드, 파라미터 형식(text, json), 파라미터 구조
 CREATE TABLE message_request_parameters (
     message_name VARCHAR(255),  -- 전문명 ID (messages 테이블의 message_name과 매핑)
     parameter_format ENUM('JSON', 'TEXT') NOT NULL,  -- 파라미터 형식 (JSON or TEXT)
     parameter_schema JSON,  -- JSON 형식의 요청 파라미터 스키마 저장 (TEXT일 경우 NULL 허용)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 생성 시간
-    PRIMARY KEY (message_name),  -- message_name_id를 기본 키로 설정
+    PRIMARY KEY (message_name),  -- message_name를 기본 키로 설정
     FOREIGN KEY (message_name) REFERENCES messages(message_name)  -- 외래 키 설정
 );
 
-// 전문 요청 파라미터 테이블 값
+-- 전문 요청 파라미터 테이블 값
 INSERT INTO message_request_parameters (message_name, parameter_format, parameter_schema)
 VALUES
     ('00A001', 'JSON', '{
@@ -45,5 +45,33 @@ VALUES
                 "Sdata1": "String", 
                 "Sdata2": "String" 
             }
+        }
+    }');
+
+
+
+
+
+-- 전문 응답 파라미터 테이블 : 전문코드, 파라미터 형식(text, json), 파라미터 구조
+CREATE TABLE message_response_parameters (
+    message_name VARCHAR(255),  -- 전문명 ID (messages 테이블의 message_name과 매핑)
+    parameter_format ENUM('JSON', 'TEXT') NOT NULL,  -- 파라미터 형식 (JSON or TEXT)
+    parameter_schema JSON,  -- JSON 형식의 요청 파라미터 스키마 저장 (TEXT일 경우 NULL 허용)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 생성 시간
+    PRIMARY KEY (message_name),  -- message_name_id를 기본 키로 설정
+    FOREIGN KEY (message_name) REFERENCES messages(message_name)  -- 외래 키 설정
+);
+
+
+-- 전문 응답 파라미터 테이블 값
+INSERT INTO message_response_parameters (message_name, parameter_format, parameter_schema)
+VALUES
+    ('00A001', 'JSON', '{
+        "header": { 
+            "responseCode": "String", 
+            "responseMessage": "String"
+        },
+        "body": { 
+            "responseData":"String"
         }
     }');

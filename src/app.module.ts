@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppController, PathController } from './app.controller';
-import { AppService, PathService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule } from './utils/mysqlConn';
+
+import { AppController } from './controllers/app.controller';
+import { AppService } from './services/app.service';
+
+import { GatewayModule } from './modules/gateway.module';
 
 @Module({
   imports: [    
-    ConfigModule.forRoot({ isGlobal: true }), // .env 파일 자동 로드
-    DatabaseModule
+    GatewayModule
   ],
-  controllers: [AppController, PathController],
-  providers: [AppService, PathService],
+  
+  // 아래는 App (기본 구조)
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

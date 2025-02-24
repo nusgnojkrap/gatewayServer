@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { AppService, PathService } from './app.service';
-// import { CreateGatewayDto } from './dto/create-gateway.dto';
+import { AppService } from '../services/app.service';
 
 @Controller()
 export class AppController {
@@ -18,15 +17,5 @@ export class AppController {
   @Get('nowtime')
   getNowTime(): string {
     return this.appService.getNowTime();
-  }
-}
-
-@Controller('jongway')
-export class PathController {
-  constructor(private readonly PathService: PathService) {}
-
-  @Post('post')
-  jongWay(@Body() CreateGatewayDto):object {
-    return this.PathService.jongWay(CreateGatewayDto);
   }
 }
