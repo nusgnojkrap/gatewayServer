@@ -105,15 +105,15 @@ mysql DB version : 8.0.41.0
 root / vkvkdltm
 database : gateway
 
-  1) 전문명 테이블 생성
-  2) 전문통신에 필요한 요청 응답값 구조 테이블 생성
+  1) 전문명 테이블 생성                                   ok
+  2) 전문통신에 필요한 요청 응답값 구조 테이블 생성         ok
 
-2. 서버와 DB 연동
-  1) 전문명 조회하고 확인된 전문명만 gateway 가능
-  2) 확인이 된 전문명이지만, 요청값이 table에 저장된 값과 구조가 다르면 탈락
-  3) 응답값이 table에 저장된 값과 구조가 다르면 탈락
+2. 서버와 DB 연동                                        no
+  1) 전문명 조회하고 확인된 전문명만 gateway 가능           ok
+  2) 확인이 된 전문명이지만, 요청값이 table에 저장된 값과 구조가 다르면 탈락    ok
+  3) 응답값이 table에 저장된 값과 구조가 다르면 탈락        no
 
-3. 안정적인 이중화 서버 구조 생각
+3. 안정적인 이중화 서버 구조 생각                         해야함
   1) DB 이중화?
   2) 서버 이중화?
   3) 무중단 서비스 (업데이트가 필요할 때에도 중단되면 안됨)
@@ -131,9 +131,8 @@ database : gateway
 | 테이블명 | 설명 |
 |-------------|---------|
 | `messages` | 전문(메시지) 정의 테이블 |
-| `message_request_params` | 각 전문의 요청 파라미터 목록 |
-| `message_response_params` | 각 전문의 응답 파라미터 목록 |
-| `message_logs` | 요청 및 응답 로그 테이블 |
+| `message_request_param` | 각 전문의 요청 파라미터 목록 |
+| `message_response_param` | 각 전문의 응답 파라미터 목록 |
 
 ---
 
@@ -157,7 +156,7 @@ database : gateway
 
 ---
 
-##### 2️⃣ `message_request_params` (요청 파라미터 테이블) -> 수정 필요 (다양한 전문들의 파라미터와 구조를 미리 세팅할 수 있는 방법 생각해야함)
+##### 2️⃣ `message_request_param` (요청 파라미터 테이블) -> 수정 필요 (다양한 전문들의 파라미터와 구조를 미리 세팅할 수 있는 방법 생각해야함)
 각 전문이 요구하는 요청 파라미터 목록 저장
 
 | 컬럼명 | 타입 | 설명 |
@@ -170,7 +169,7 @@ database : gateway
 
 ---
 
-##### 3️⃣ `message_response_params` (응답 파라미터 테이블) -> 수정 필요 (다양한 전문들의 파라미터와 구조를 미리 세팅할 수 있는 방법 생각해야함)
+##### 3️⃣ `message_response_param` (응답 파라미터 테이블) -> 수정 필요 (다양한 전문들의 파라미터와 구조를 미리 세팅할 수 있는 방법 생각해야함)
 정상적인 응답을 판단하기 위한 기준 값 저장
 
 | 컬럼명 | 타입 | 설명 |
@@ -183,17 +182,3 @@ database : gateway
 | **Foreign Key** | `message_id → messages(id)` | 해당 전문 삭제 시 함께 삭제 (`ON DELETE CASCADE`) |
 
 ---
-
-##### 4️⃣ `message_logs` (요청 로그 테이블) -> 필요 없을 수 있음
-API 요청 및 응답 결과를 저장하여 추적 가능
-
-| 컬럼명 | 타입 | 설명 |
-|--------|------|------|
-| `id` | BIGINT (PK) | 로그 ID |
-| `message_id` | BIGINT (FK) | 연결된 전문 ID (`messages.id`) |
-| `request_payload` | JSON | 실제 요청 데이터 |
-| `response_payload` | JSON | 실제 응답 데이터 |
-| `status` | ENUM('SUCCESS', 'FAILED') | 요청 성공 여부 |
-| `error_message` | TEXT | 오류 메시지 (실패 시 기록) |
-| `created_at` | TIMESTAMP | 요청 발생 시간 |
-| **Foreign Key** | `message_id → messages(id)` | 해당 전문 삭제 시 함께 삭제 (`ON DELETE CASCADE`) |

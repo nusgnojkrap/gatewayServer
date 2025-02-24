@@ -7,8 +7,13 @@ import { GatewayService } from '.././services/gateway.service';
 
 import { Messages } from 'src/entitys/messages.entity';
 import { messageRepository } from 'src/repositorys/message.repository';
+
 import { message_request_paramRepository } from 'src/repositorys/message_request_param.repository';
 import { MessageRequestParam } from 'src/entitys/message_request_param.entity';
+
+import { message_response_paramRepository } from 'src/repositorys/message_response_param.repository';
+import { MessageResponseParam } from 'src/entitys/message_response_param.entity';
+
 
 @Module({
   imports: [
@@ -23,10 +28,10 @@ import { MessageRequestParam } from 'src/entitys/message_request_param.entity';
       entities: [Messages, MessageRequestParam], // 엔티티 배열
       synchronize: false, // 데이터베이스 자동 동기화 (개발 환경에서만 사용)
     }),
-    TypeOrmModule.forFeature([Messages, MessageRequestParam]),
+    TypeOrmModule.forFeature([Messages, MessageRequestParam, MessageResponseParam]),
   ],
   controllers: [ GatewayController],
-  providers: [ GatewayService, messageRepository, message_request_paramRepository],
+  providers: [ GatewayService, messageRepository, message_request_paramRepository, message_response_paramRepository],
 })
 
 export class GatewayModule {}
