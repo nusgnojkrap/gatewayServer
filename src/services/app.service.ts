@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { DateTime } from 'luxon';
 
+// 테스트 코드
 @Injectable()
 export class AppService {
+
   getHello(): string {
     console.log("get request")
     return 'Hello World!';
@@ -13,6 +15,13 @@ export class AppService {
     const now = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss');
     console.log(now);
     return now;
+  }
+
+  getlist(): Array<string> {
+    console.log("get list")
+    let returnData = ["appale", "babe", "car", "dad", "end"]
+
+    return returnData;
   }
 
   postHello(): string {

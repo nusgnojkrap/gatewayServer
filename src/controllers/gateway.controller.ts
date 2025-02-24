@@ -5,14 +5,14 @@ import { GatewayService } from '../services/gateway.service';
 export class GatewayController {
   constructor(private readonly PathService: GatewayService) {}
 
-  @Get('')
-  GetgateWay(@Body() CreateGatewayDto):object {
-    return this.PathService.GetGateWay(CreateGatewayDto);
-  }
-
   @Post('')
   PostGateWay(@Body() CreateGatewayDto):object {
     return this.PathService.PostGateWay(CreateGatewayDto);
+  }
+
+  @Get('')
+  GetgateWay(@Body() CreateGatewayDto):object {
+    return this.PathService.GetGateWay(CreateGatewayDto);
   }
 
   @Patch('')

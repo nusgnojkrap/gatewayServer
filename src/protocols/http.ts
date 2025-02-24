@@ -1,6 +1,26 @@
 import { request } from 'http';
 import { CreateGatewayDto } from '../dto/create-gateway.dto';
 
+
+/*
+{
+  "data": {
+      "data1": "String", 
+      "data2": "String", 
+      "data3": {
+        "Sdata1": "String", 
+        "Sdata2": "String"
+      }
+  }, 
+  "info": {
+    "age": "int", 
+    "sex": "String", 
+    "last name": "String", 
+    "first name": "String"
+  }
+}
+
+*/
 export function jonghttp(data:CreateGatewayDto): Promise<CreateGatewayDto> {
 
   const options = {
@@ -34,7 +54,7 @@ export function jonghttp(data:CreateGatewayDto): Promise<CreateGatewayDto> {
           // 응답 데이터를 CreateGatewayDto 형태로 변환
           const result: CreateGatewayDto = {
             header: data.header,
-            data: parsedData || "",  // 응답에서 data가 없으면 원본 data 사용
+            body: parsedData || "",  // 응답에서 data가 없으면 원본 data 사용
           };
 
           resolve(result);  // Promise를 resolve하여 결과를 반환

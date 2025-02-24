@@ -17,7 +17,7 @@ export function jongsocket(data:CreateGatewayDto): Promise<CreateGatewayDto> {
 
         socket.on("message", (msg: string) => {
           console.log("msg : " + msg);
-          data.data = msg
+          data.body = msg
         });
 
         return () => {

@@ -1,31 +1,10 @@
-export enum Protocol {
-    HTTP = 'HTTP',
-    HTTPS = 'HTTPS',
-    // TCP = 'TCP',
-    // UDP = 'UDP',
-}
-
-export enum Method {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT',
-    DELETE = 'DELETE',
-    // PATCH = 'PATCH',
-    // HEAD = 'HEAD',
-    // OPTIONS = 'OPTIONS',
-    // CONNECT = 'CONNECT',
-    // SEND = 'SEND',
-    // RECEIVE = 'RECEIVE',
-    // REQUEST = 'REQUEST',
-    // RESPONSE = 'RESPONSE',
-    // SUBSCRIBE = 'SUBSCRIBE',
-    // PUBLISH = 'PUBLISH'
-}
+import { Method } from "./create-gateway-Method.dto";
+import { Protocol } from "./create-gateway-Protocol.dto";
 
 export class CreateGatewayHeaderDto {
     messageName: string;
     protocol: Protocol;
-    method: string;
+    method: Method;
     ip: string;
     port: string;
     path: string;
