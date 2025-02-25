@@ -1,30 +1,31 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+  <p align="center">This project is built using <a href="https://nestjs.com/" target="_blank">NestJS</a> <p align="center">
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# 🚀 Gateway Middleware Server
 
-## Description
+![NestJS](https://img.shields.io/badge/NestJS-8E2DE2?style=for-the-badge&logo=nestjs&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+> **NestJS 기반 고성능 게이트웨이 서버**  
+> 전문 파라미터 관리 및 요청/응답 검증 기능을 제공하는 중개 서버입니다.
+
+---
+
+## 📌 Features
+- 📡 **JSON 기반 전문 파라미터 관리** (MySQL 저장)
+- 🚀 **고성능 최적화** (MQ, 캐싱, gRPC, 로드 밸런서 고려) -> 개발 예정
+- 🔒 **요청 검증 및 필터링** (데이터 무결성 보장)
+- ⚡ **확장 가능한 마이크로서비스 아키텍처 지원**          -> 개발 예정
+- 📊 **실시간 모니터링 및 로깅 시스템 연동 가능**          -> 개발 예정
+
+---
+
+## 🏗️ Architecture
+- 클라이언트 요청을 중개하여 백엔드 마이크로서비스 또는 외부 API와 연동합니다.
+- 전문(JSON) 구조 기반으로 요청을 관리하고 유효성 검증을 수행합니다.
+- **캐싱, MQ, 로드 밸런서**를 활용하여 최적화할 수 있습니다.
+
 
 ## Project setup
 
@@ -57,46 +58,11 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- developer - [Jongsun Park](ahrl1994@gmail.com)
+<!-- - Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework) -->
 
 # Todo-List
 
@@ -123,6 +89,32 @@ database : gateway
   1) 전문 등록
   2) 로그 확인 (전문에 대한 로그 확인 가능)
   3) 등 등
+
+5. 성능 개선
+  1) redis 캐싱 사용  -> 개발 예정
+  2) 로드 밸런서 적용  -> 개발 예정
+  3) 비동기 처리(MQ)   -> 개발 예정
+  4) gRPC             -> 미정
+  5) 서버리스 아키텍처 -> 미정
+
+## Gateway 연동 규격
+path : http://10.10.10.181:3000/gateway/
+method : http / POST
+example : 
+{
+    "header":{
+        "messageName":"00A001",   // 전문명명
+        "protocol":"HTTP",        // 규격
+        "method":"GET",           // 메소드
+        "ip":"127.0.0.1",         // IP
+        "port":"3000",            // 포트
+        "path":"/list"            // 경로
+    },
+    "body":{
+      // json 형태의 데이터 (DB에 등록된 형태)
+    }
+}
+
 
 
 ## Gateway Table 구조
