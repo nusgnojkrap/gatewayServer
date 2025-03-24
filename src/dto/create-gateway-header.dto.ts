@@ -2,11 +2,11 @@ import { Method } from "./create-gateway-Method.dto";
 import { Protocol } from "./create-gateway-Protocol.dto";
 
 export class CreateGatewayHeaderDto {
-    messageName: string;
+    readonly messageName: string;
     protocol: Protocol;
     method: Method;
     ip: string;
-    port: string;
+    port: number;
     path: string;
     responseMessage: string;
     responseCode: String

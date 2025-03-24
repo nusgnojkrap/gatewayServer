@@ -15,8 +15,7 @@ UNIQUE KEY unique_message (message_name, ip, port, path, protocol, method)
 );
 
 -- 전문 리스트 테이블 값
-INSERT INTO messages (message_name, ip, port, path, protocol, method) VALUES ('00A001', '10.10.10.181', 3000, '/nowtime', 'HTTP', 'GET');
-
+INSERT INTO messages (message_name, ip, port, path, protocol, method) VALUES ('00A002', '10.10.10.181', 8080, '/getxmldata/worktime', 'HTTP', 'POST');
 
 -- 전문 요청 파라미터 테이블 : 전문코드, 파라미터 형식(text, json), 파라미터 구조
 CREATE TABLE message_request_param (
@@ -31,22 +30,15 @@ CREATE TABLE message_request_param (
 -- 전문 요청 파라미터 테이블 값
 INSERT INTO message_request_param (message_name, parameter_format, parameter_schema)
 VALUES
-    ('00A001', 'JSON', '{
-        "info": { 
-            "first name": "string", 
-            "last name": "string", 
-            "age": "number", 
-            "sex": "string"
-        },
-        "data": { 
-            "data1": "string", 
-            "data2": "string", 
-            "data3": { 
-                "Sdata1": "string", 
-                "Sdata2": "string" 
-            }
-        }
-    }');
+    ('00A002', 'JSON', '{
+	"header":{
+		"ani":"string",
+		"dnis":"string",
+		"ucid":"string"
+	},
+	"dnis":"string",
+	"dateType":"string"
+}');
 
 
 
@@ -66,12 +58,15 @@ CREATE TABLE message_response_param (
 -- 전문 응답 파라미터 테이블 값
 INSERT INTO message_response_param (message_name, parameter_format, parameter_schema)
 VALUES
-    ('00A001', 'JSON', '{
-        "header": { 
-            "responseCode": "number", 
-            "responseMessage": "string"
-        },
-        "body": { 
-            "responseData":"string"
-        }
-    }');
+    ('00A002', 'JSON', '{
+    "header": {
+        "ani": "01075761807",
+        "dnis": "1300",
+        "ucid": "abc101010101",
+        "resultCode": "SUCCESS",
+        "resultMessage": "성공"
+    },
+    "dnis": "9600",
+    "dateType": "MON",
+    "worktime": "0900:1750"
+}');

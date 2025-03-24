@@ -4,26 +4,32 @@ import { AppService } from '../services/app.service';
 // 테스트 코드
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+    constructor(private readonly appService: AppService) { }
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+    @Get()
+    getHello(): string {
+        return this.appService.getHello();
+    }
 
-  @Get('nowtime')
-  getNowTime(): string {
-    return this.appService.getNowTime();
-  }
+    @Get('nowtime')
+    getNowTime(): string {
+        return this.appService.getNowTime();
+    }
 
-  @Get('list')
-  getlist(): Array<string> {
-    return this.appService.getlist();
-  }
+    @Get('list')
+    getlist(): Array<string> {
+        return this.appService.getlist();
+    }
 
-  @Post()
-  postHello(): string {
-    return this.appService.postHello();
-  }
+    @Post('hello')
+    postHello(): string {
+        return this.appService.postHello();
+    }
+
+    @Post('check')
+    postCheck(@Body() any): string {
+        return this.appService.postCheck(any);
+    }
+
 
 }

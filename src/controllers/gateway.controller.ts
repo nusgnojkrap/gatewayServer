@@ -3,21 +3,21 @@ import { GatewayService } from '../services/gateway.service';
 
 @Controller('gateway')
 export class GatewayController {
-  constructor(private readonly PathService: GatewayService) {}
+    constructor(private readonly PathService: GatewayService) { }
 
-  @Post('')
-  PostGateWay(@Body() CreateGatewayDto):object {
-    return this.PathService.PostGateWay(CreateGatewayDto);
-  }
+    @Post('')
+    PostGateWay(@Body() CreateGatewayDto): object {
+        return this.PathService.PostGateWay(CreateGatewayDto);
+    }
 
-  @Get('')
-  GetgateWay(@Body() CreateGatewayDto):object {
-    return this.PathService.GetGateWay(CreateGatewayDto);
-  }
+    @Get('')
+    GetgateWay(@Body() CreateGatewayDto): object {
+        return this.PathService.GetGateWay(CreateGatewayDto);
+    }
 
-  @Patch('')
-  PatchGateWay(@Body() CreateGatewayDto):object {
-    return this.PathService.PatchGateWay(CreateGatewayDto);
-  }
+    @Patch('')
+    PatchGateWay(@Body() CreateGatewayDto): object {
+        return this.PathService.PatchGateWay(CreateGatewayDto);
+    }
 
 }
