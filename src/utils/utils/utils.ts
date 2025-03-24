@@ -18,7 +18,8 @@ export function formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
 }
 
-export function errorCodeSet(data:CreateGatewayDto, errCode:ErrorCode){
+export function errorCodeSet(data:CreateGatewayDto, errCode:ErrorCode) : CreateGatewayDto{
     data.header.responseCode = errCode;
     data.header.responseMessage = ERROR_MESSAGES[errCode]
+    return data;
 }

@@ -27,7 +27,8 @@ export class FunctionResult<T> {
         return this.success ? this.data : null;
     }
 
-    getMessage(): ErrorCode | null {
-        return this.success ? null : this.message;
+    getMessage(): ErrorCode {
+        return this.success ? ErrorCode.SUCCESS : this.message!;
     }
+    
 }

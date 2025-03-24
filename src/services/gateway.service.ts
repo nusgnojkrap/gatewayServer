@@ -58,7 +58,7 @@ export class GatewayService {
                 case 'application/json':
                     // 구조 검사
                     if (!formatCheck(requestFormat.parameter_schema, requestData.body)) {
-                        errorCodeSet(responseData, ErrorCode.NOT_DEFINED_DATA)
+                        responseData = errorCodeSet(responseData, ErrorCode.NOT_DEFINED_DATA)
                         return responseData;
                     }
                     break;
@@ -70,7 +70,7 @@ export class GatewayService {
                 
                 default:
                     // 장애
-                    errorCodeSet(responseData, ErrorCode.NOT_DEFINED_DATA)
+                    responseData = errorCodeSet(responseData, ErrorCode.NOT_DEFINED_DATA)
                     break;
             }
 
@@ -84,10 +84,10 @@ export class GatewayService {
                             responseData.body = httpResult.getData().body;
                             if (dbCheck.cacheYN) setRedis(requestData.header.messageName, responseData.body, dbCheck.cacheTTL)
                         }
-                        errorCodeSet(responseData, httpResult.getMessage())
+                        responseData = errorCodeSet(responseData, httpResult.getMessage())
                     } catch (error) {
                         console.log("error : " + error)
-                        errorCodeSet(responseData, ErrorCode.EXCEPTION_ERROR)
+                        responseData = errorCodeSet(responseData, ErrorCode.EXCEPTION_ERROR)
                     }
                     break;
 
@@ -98,22 +98,22 @@ export class GatewayService {
                             responseData.body = httpsResult.getData().body;
                             if (dbCheck.cacheYN) setRedis(requestData.header.messageName, responseData.body, dbCheck.cacheTTL)
                         }
-                        errorCodeSet(responseData, httpsResult.getMessage())
+                        responseData = errorCodeSet(responseData, httpsResult.getMessage())
                     } catch (error) {
                         console.log("error : " + error)
-                        errorCodeSet(responseData, ErrorCode.EXCEPTION_ERROR)
+                        responseData = errorCodeSet(responseData, ErrorCode.EXCEPTION_ERROR)
                     }
 
                     break;
 
                 default:
                     console.log("개발하지 않은 프로토콜 : " + dbCheck.protocol);
-                    errorCodeSet(responseData, ErrorCode.METHOD_NOT_FOUND)
+                    responseData = errorCodeSet(responseData, ErrorCode.METHOD_NOT_FOUND)
                     break;
             }
         } else {
             console.log("미등록 전문 : " + requestData.header.messageName);
-            errorCodeSet(responseData, ErrorCode.METHOD_NOT_FOUND)
+            responseData = errorCodeSet(responseData, ErrorCode.METHOD_NOT_FOUND)
         }
 
         // 응답값에서 data는 두루뭉실하게 처리하고 그대로 반환
@@ -135,7 +135,7 @@ export class GatewayService {
         console.log("Gate way : Get");
         let responseData: CreateGatewayDto
 
-        errorCodeSet(responseData, ErrorCode.INVALID_PATH)
+        responseData = errorCodeSet(responseData, ErrorCode.INVALID_PATH)
 
         // 응답값에서 data는 두루뭉실하게 처리하고 그대로 반환
         return responseData;
@@ -145,7 +145,7 @@ export class GatewayService {
         console.log("Gate way : Get");
         let responseData: CreateGatewayDto
 
-        errorCodeSet(responseData, ErrorCode.INVALID_PATH)
+        responseData = errorCodeSet(responseData, ErrorCode.INVALID_PATH)
 
         // 응답값에서 data는 두루뭉실하게 처리하고 그대로 반환
         return responseData;
