@@ -1,7 +1,8 @@
 import { request } from 'http';
-import { CreateGatewayDto } from '../dto/create-gateway.dto';
-import isJsonString from 'src/utils/utils';
-
+import { CreateGatewayDto } from '../../dto/create-gateway.dto';
+import { isJsonString } from 'src/utils/utils/utils';
+import { FunctionResult } from '../common/function-result';
+import { ErrorCode } from '../common/error-code';
 
 /*
 {
@@ -22,8 +23,7 @@ import isJsonString from 'src/utils/utils';
 }
 
 */
-export function jonghttp(data: CreateGatewayDto): Promise<CreateGatewayDto> {
-
+export function jonghttp(data: CreateGatewayDto): Promise<FunctionResult<CreateGatewayDto>> {
     const requestData = typeof data.body === 'object' ? JSON.stringify(data.body) : data.body;
 
     const options = {
@@ -37,7 +37,7 @@ export function jonghttp(data: CreateGatewayDto): Promise<CreateGatewayDto> {
         },
     };
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const req = request(options, (res) => {
             let responseData = '';
 
@@ -59,18 +59,19 @@ export function jonghttp(data: CreateGatewayDto): Promise<CreateGatewayDto> {
                         body: parsedData || "",  // 응답에서 data가 없으면 원본 data 사용
                     };
 
-                    resolve(result);  // Promise를 resolve하여 결과를 반환
+                    resolve(FunctionResult.success(result));  // 성공 반환
                 } catch (error) {
-                    reject('Error parsing response data: ' + error);
+                    resolve(FunctionResult.failure(ErrorCode.EXCEPTION_ERROR));  // JSON 파싱 실패
                 }
             });
         });
 
         req.on('error', (error) => {
-            reject('Request error: ' + error);
+            console.error("Request error: ", error);
+            resolve(FunctionResult.failure(ErrorCode.CONNECTION_FAIL));  // HTTP 요청 실패
         });
 
-        // ✅ 요청 데이터 전송 (이 부분이 추가됨)
+        // 요청 데이터 전송
         if (requestData) {
             req.write(requestData);
         }
@@ -78,5 +79,3 @@ export function jonghttp(data: CreateGatewayDto): Promise<CreateGatewayDto> {
         req.end();
     });
 }
-
-// httpGet();

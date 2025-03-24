@@ -1,4 +1,4 @@
-import { CreateGatewayDto } from '../dto/create-gateway.dto';
+import { CreateGatewayDto } from '../../dto/create-gateway.dto';
 import { io, Socket } from "socket.io-client";
 
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { GatewayService } from '../services/gateway.service';
 
 @Controller('gateway')
@@ -10,9 +10,9 @@ export class GatewayController {
         return this.PathService.PostGateWay(CreateGatewayDto);
     }
 
-    @Get('')
-    GetgateWay(@Body() CreateGatewayDto): object {
-        return this.PathService.GetGateWay(CreateGatewayDto);
+    @Get('deletecache/:messageName')
+    deleteCache(@Param('messageName') messageName: string): object {
+        return this.PathService.deleteCache(messageName);
     }
 
     @Patch('')

@@ -13,7 +13,7 @@ redisClient.on('error', (err) => {
   console.error('Redis 연결 오류:', err);
 });
 
-// ✅ 데이터를 저장하는 함수
+// 데이터를 저장하는 함수
 export const setRedis = async (key: string, value: string, ttl?: number): Promise<void> => {
   if (ttl) {
     await redisClient.set(key, value, 'EX', ttl);
@@ -22,12 +22,12 @@ export const setRedis = async (key: string, value: string, ttl?: number): Promis
   }
 };
 
-// ✅ 데이터를 조회하는 함수
+// 데이터를 조회하는 함수
 export const getRedis = async (key: string): Promise<string | null> => {
   return await redisClient.get(key);
 };
 
-// ✅ 데이터를 삭제하는 함수
+// 데이터를 삭제하는 함수
 export const delRedis = async (key: string): Promise<void> => {
   await redisClient.del(key);
 };

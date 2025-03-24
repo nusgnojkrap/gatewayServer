@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
 
 import { GatewayController } from '.././controllers/gateway.controller';
 import { GatewayService } from '.././services/gateway.service';
-
-// import { RedisService } from 'src/services/redis.service';
 
 import { Messages } from 'src/entitys/messages.entity';
 import { messageRepository } from 'src/repositorys/message.repository';
@@ -19,8 +16,7 @@ import { MysqlConnModule } from 'src/databases/mysqlConn.module';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ isGlobal: true }), // .env 파일 자동 로드
-        MysqlConnModule, // 💡 새롭게 만든 MySQL 연결 모듈 추가
+        MysqlConnModule, // MySQL 연결 모듈 추가
         TypeOrmModule.forFeature([Messages, MessageRequestParam, MessageResponseParam]),
     ],
     controllers: [GatewayController],
