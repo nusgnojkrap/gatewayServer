@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
+        ConfigModule, // 환경 변수 사용을 위해 ConfigModule 추가
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
@@ -15,10 +15,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
                 username: configService.get<string>('DB_USER'),
                 password: configService.get<string>('DB_PASSWORD'),
                 database: configService.get<string>('DB_NAME'),
-                autoLoadEntities: true,
-                synchronize: true, // 개발 환경에서만 사용 (운영 환경에서는 마이그레이션 사용)
+                autoLoadEntities: true, // 엔티티 자동 로드
+                synchronize: false, // 운영에서는 false 유지
             }),
         }),
     ],
+    exports: [TypeOrmModule], // 다른 모듈에서 사용 가능하도록 내보내기
 })
-export class mysqlConn { }
+export class MysqlConnModule {}

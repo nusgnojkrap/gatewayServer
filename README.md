@@ -61,8 +61,6 @@ $ npm run test:cov
 ## Stay in touch
 
 - developer - [Jongsun Park](ahrl1994@gmail.com)
-<!-- - Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework) -->
 
 # Todo-List
 

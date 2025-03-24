@@ -15,20 +15,12 @@ import { MessageRequestParam } from 'src/entitys/message_request_param.entity';
 
 import { message_response_paramRepository } from 'src/repositorys/message_response_param.repository';
 import { MessageResponseParam } from 'src/entitys/message_response_param.entity';
+import { MysqlConnModule } from 'src/databases/mysqlConn.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }), // .env 파일 자동 로드
-        TypeOrmModule.forRoot({
-            type: 'mysql', // 데이터베이스 종류 (예: MySQL)
-            host: '127.0.0.1', // 데이터베이스 호스트
-            port: 3306, // 포트
-            username: 'root', // 사용자 이름
-            password: 'vkvkdltm', // 비밀번호
-            database: 'gateway', // 데이터베이스 이름
-            entities: [Messages, MessageRequestParam], // 엔티티 배열
-            synchronize: false, // 데이터베이스 자동 동기화 (개발 환경에서만 사용)
-        }),
+        MysqlConnModule, // 💡 새롭게 만든 MySQL 연결 모듈 추가
         TypeOrmModule.forFeature([Messages, MessageRequestParam, MessageResponseParam]),
     ],
     controllers: [GatewayController],
