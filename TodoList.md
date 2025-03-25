@@ -27,7 +27,7 @@ mysql DB version : 8.0.41.0
   3) 등 등
 
 5. 성능 개선
-  1) express to Fastify -> no
+  1) express to Fastify -> ok
   2) redis cache        -> ok
   3) HTTP Keep-Alive    -> no
   4) Message Queue      -> 개발 예정

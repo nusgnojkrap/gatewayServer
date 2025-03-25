@@ -6,6 +6,8 @@
 ![NestJS](https://img.shields.io/badge/NestJS-8E2DE2?style=for-the-badge&logo=nestjs&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Fastify](https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white)
+
 
 > **NestJS 기반 고성능 게이트웨이 서버**  
 > 전문 파라미터 관리 및 요청/응답 검증 기능을 제공하는 중개 서버입니다.
