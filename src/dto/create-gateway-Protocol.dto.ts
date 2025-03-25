@@ -1,6 +1,6 @@
 export enum Protocol {
     HTTP = 'HTTP',
     HTTPS = 'HTTPS',
-    // TCP = 'TCP',
-    // UDP = 'UDP',
+    SOCKET = 'SOCKET', // 일반 소켓 통신 (TCP/UDP 기반)
+    WEBSOCKET = 'WEBSOCKET', // 웹소켓 통신
 }

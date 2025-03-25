@@ -6,6 +6,7 @@ import { jonghttp } from '../utils/protocols/http';
 
 import { messageRepository } from '../repositorys/message.repository'
 import { message_request_paramRepository } from '../repositorys/message_request_param.repository'
+import { message_response_paramRepository } from '../repositorys/message_response_param.repository'
 import formatCheck from '../utils/utils/checkProtocol';
 
 import { Messages } from 'src/entitys/messages.entity';
@@ -14,6 +15,8 @@ import { getRedis, setRedis, delRedis } from '../utils/utils/redis.util';
 import { FunctionResult } from 'src/utils/common/function-result';
 import { ErrorCode } from 'src/utils/common/error-code';
 import { errorCodeSet } from 'src/utils/utils/utils';
+import { MessageResponseParam } from 'src/entitys/message_response_param.entity';
+import { jongwebsocket } from 'src/utils/protocols/websocket';
 
 @Injectable()
 export class GatewayService {
@@ -21,6 +24,7 @@ export class GatewayService {
     constructor(
         private readonly messageRepository: messageRepository,
         private readonly message_request_paramRepository: message_request_paramRepository,
+        private readonly message_response_paramRepository: message_response_paramRepository,
     ) { }
 
 
@@ -81,8 +85,14 @@ export class GatewayService {
                         //responseData = await jonghttp(requestData);
                         let httpResult:FunctionResult<CreateGatewayDto> = await jonghttp(requestData);
                         if (httpResult.isSuccess()){
-                            responseData.body = httpResult.getData().body;
-                            if (dbCheck.cacheYN) setRedis(requestData.header.messageName, responseData.body, dbCheck.cacheTTL)
+                            // 응답값 검사
+                            const responseFormat: MessageResponseParam = await this.message_response_paramRepository.findFormat(requestData.header.messageName);
+                            if (responseFormat.parameter_format == "application/json"){
+                                if (!formatCheck(responseFormat.parameter_schema, httpResult.getData().body)){
+                                    responseData.body = httpResult.getData().body;
+                                    if (dbCheck.cacheYN) setRedis(requestData.header.messageName, responseData.body, dbCheck.cacheTTL)
+                                }
+                            }
                         }
                         responseData = errorCodeSet(responseData, httpResult.getMessage())
                     } catch (error) {
@@ -95,8 +105,14 @@ export class GatewayService {
                     try {
                         let httpsResult:FunctionResult<CreateGatewayDto> = await jonghttp(requestData);
                         if (httpsResult.isSuccess()){
-                            responseData.body = httpsResult.getData().body;
-                            if (dbCheck.cacheYN) setRedis(requestData.header.messageName, responseData.body, dbCheck.cacheTTL)
+                            // 응답값 검사
+                            const responseFormat: MessageResponseParam = await this.message_response_paramRepository.findFormat(requestData.header.messageName);
+                            if (responseFormat.parameter_format == "application/json"){
+                                if (!formatCheck(responseFormat.parameter_schema, httpsResult.getData().body)){
+                                    responseData.body = httpsResult.getData().body;
+                                    if (dbCheck.cacheYN) setRedis(requestData.header.messageName, responseData.body, dbCheck.cacheTTL)
+                                }
+                            }
                         }
                         responseData = errorCodeSet(responseData, httpsResult.getMessage())
                     } catch (error) {
@@ -105,6 +121,37 @@ export class GatewayService {
                     }
 
                     break;
+
+                    case 'SOCKET':
+                        try {
+                            console.log("개발 중인 프로토콜 입니다.")
+                            responseData = errorCodeSet(responseData, ErrorCode.METHOD_NOT_FOUND)
+                        } catch (error) {
+                            console.log("error : " + error)
+                            responseData = errorCodeSet(responseData, ErrorCode.EXCEPTION_ERROR)
+                        }
+                        break;
+
+
+                    case 'WEBSOCKET':
+                        try {
+                            let websocketResult:FunctionResult<CreateGatewayDto> = await jongwebsocket(requestData);
+                            if (websocketResult.isSuccess()){
+                                const responseFormat: MessageResponseParam = await this.message_response_paramRepository.findFormat(requestData.header.messageName);
+                                if (responseFormat.parameter_format == "application/json"){
+                                    if (!formatCheck(responseFormat.parameter_schema, websocketResult.getData().body)){
+                                        responseData.body = websocketResult.getData().body;
+                                        if (dbCheck.cacheYN) setRedis(requestData.header.messageName, responseData.body, dbCheck.cacheTTL)
+                                    }
+                                }
+                            }
+                            responseData = errorCodeSet(responseData, websocketResult.getMessage())
+                        } catch (error) {
+                            console.log("error : " + error)
+                            responseData = errorCodeSet(responseData, ErrorCode.EXCEPTION_ERROR)
+                        }
+                        break;
+    
 
                 default:
                     console.log("개발하지 않은 프로토콜 : " + dbCheck.protocol);

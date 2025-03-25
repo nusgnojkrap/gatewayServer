@@ -11,9 +11,9 @@ export class message_response_paramRepository {
         @InjectRepository(MessageResponseParam) // 메시지 엔티티에 대한 리포지토리 주입
         private Repository: Repository<MessageResponseParam>) { }
 
-    // 특정 전문 포맷 확인 (TEXT or JSON)
-    async findFormat(message_name: string): Promise<Pick<MessageResponseParam, 'parameter_format'>> {
-        return this.Repository.findOne({ where: { message_name }, select: ["parameter_format"] });
+    // 특정 전문 확인
+    async findFormat(message_name: string): Promise<MessageResponseParam> {
+        return this.Repository.findOne({ where: { message_name } });
     }
 
     // 특정 전문 구조 확인 (JSON)
