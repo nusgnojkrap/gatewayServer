@@ -1,7 +1,7 @@
   <p align="center">This project is built using <a href="https://nestjs.com/" target="_blank">NestJS</a> <p align="center">
 
 
-# 🚀 Gateway Middleware Server
+#  Gateway Middleware Server
 
 ![NestJS](https://img.shields.io/badge/NestJS-8E2DE2?style=for-the-badge&logo=nestjs&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
@@ -12,18 +12,17 @@
 
 ---
 
-## 📌 Features
-- 📡 **JSON 기반 전문 파라미터 관리** (MySQL 저장)
-- 🔒 **요청 검증 및 필터링** (데이터 무결성 보장)
-- 🚀 **고성능 최적화** (MQ, 캐싱, gRPC, 로드 밸런서 고려) -> 개발 예정
-- ⚡ **확장 가능한 마이크로서비스 아키텍처 지원**          -> 개발 예정
-- 📊 **실시간 모니터링 및 로깅 시스템 연동 가능**          -> 개발 예정
+##  Features
+-  **JSON 기반 전문 파라미터 관리** (MySQL 저장)
+-  **요청 검증 및 필터링** (데이터 무결성 보장)
+-  **고성능 최적화** (캐싱, HTTP Keep Alive, Fastify, MQ, gRPC, 로드 밸런서 고려) -> 개발 예정
+-  **실시간 모니터링 및 로깅 시스템 연동 가능**          -> 개발 예정
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 - 클라이언트 요청을 중개하여 백엔드 마이크로서비스 또는 외부 API와 연동합니다.
-- 전문(JSON) 구조 기반으로 요청을 관리하고 유효성 검증을 수행합니다.
+- 전문(JSON, TEXT) 구조 기반으로 API, socket 요청을 관리하고 유효성 검증을 수행합니다.
 - **캐싱, MQ, 로드 밸런서**를 활용하여 최적화할 수 있습니다.
 
 
@@ -61,47 +60,7 @@ $ npm run test:cov
 ## Stay in touch
 
 - developer - [Jongsun Park](ahrl1994@gmail.com)
-
-# Todo-List
-
-1. DB 설치 및 구조 생각 (mysql)
-mysql DB version : 8.0.41.0
-root / vkvkdltm
-database : gateway
-
-  1) 전문명 테이블 생성                                  ok
-  2) 전문통신에 필요한 요청 응답값 구조 테이블 생성          ok
-  3) 전문 테이블에 캐시 사용 여부 컬럼 추가             ㅇ  ok
-  4) 전문 테이블에 캐시 사용 시 초기화 주기 시간 추가        ok
-  5) 특정 전문 캐시 삭제 기능 추가                 ㅇㅇ    ok
-  
-
-2. 서버와 DB 연동                                        no
-  1) 전문명 조회하고 확인된 전문명만 gateway 가능           ok
-  2) 확인이 된 전문명이지만, 요청값이 table에 저장된 값과 구조가 다르면 탈락    ok
-  3) 응답값이 table에 저장된 값과 구조가 다르면 탈락        no
-
-3. 안정적인 이중화 서버 구조 생각                         해야함
-  1) DB 이중화?
-  2) 서버 이중화?
-  3) 무중단 서비스 (업데이트가 필요할 때에도 중단되면 안됨)
-  4) 많은 요청 감당 가능한지?
-
-4. 웹 개발
-  1) 전문 등록
-  2) 로그 확인 (전문에 대한 로그 확인 가능)
-  3) 등 등
-
-5. 성능 개선
-  1) redis 캐싱 사용  -> 개발 완료
-  2) 로드 밸런서 적용  -> 개발 예정
-  3) 비동기 처리(MQ)   -> 개발 예정
-  4) gRPC             -> 미정
-  5) 서버리스 아키텍처 -> 미정
-
-6. 보안 및 취약점
-  1) 재귀 형식의 공격 차단
-  2) ip, port 등 header 부분 체크
+- developer - [Junho Kim](libtv@naver.com)
 
 ## Gateway 연동 규격
 path : http://10.10.10.181:3000/gateway/
@@ -122,7 +81,6 @@ example :
 }
 
 
-
 ## Gateway Table 구조
 #### 1. 테이블 개요
 
@@ -137,17 +95,19 @@ example :
 #### 2. 테이블 상세 구조
 
 ##### 1️⃣ `messages` (전문 정의 테이블)
-각 전문(메시지)에 대한 기본 정보 저장
+각 전문(메시지)에 대한 기본 정보 및 캐시 설정 저장
 
 | Column Name  | Type | Description |
 |-------------|------|-------------|
 | `message_id` | INT AUTO_INCREMENT PRIMARY KEY | Unique identifier for each message |
 | `message_name` | VARCHAR(255) NOT NULL | 전문명 |
-| `ip` | VARCHAR(45) NOT NULL | IP address |
+| `ip` | VARCHAR(15) NOT NULL DEFAULT '127.0.0.1'| IP address |
 | `port` | INT NOT NULL | Port |
 | `path` | VARCHAR(255) NOT NULL | API endpoint or network path |
 | `protocol` | ENUM('HTTP', 'HTTPS', 'TCP', 'UDP') NOT NULL | 규격 |
 | `method` | ENUM('GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS', 'CONNECT', 'SEND', 'RECEIVE', 'REQUEST', 'RESPONSE', 'SUBSCRIBE', 'PUBLISH') NOT NULL | Request method type |
+| `cacheYN` | tinyint | DEFAULT 0 |
+| `cacheTTL` | INT | DEFAULT 300 |
 | `timestamp` | TIMESTAMP DEFAULT CURRENT_TIMESTAMP | 생성시간 |
 | `unique_message` | UNIQUE KEY (`message_name`, `ip`, `port`, `path`, `protocol`, `method`) | Ensures uniqueness for message definition |
 
